@@ -19,8 +19,6 @@ table, th, td {
 	<tr>
 	<td colspan="4">
 	2020년 1학기 수강신청 
-
-	
 	 </td>
 	</tr>
 		<tr>
@@ -43,6 +41,11 @@ table, th, td {
 			</tr>
 
 		</c:forEach>
+		<tr>
+			<td colspan="4"><input type="button" class="button"
+				onclick="location.href = '${pageContext.request.contextPath }/' "
+				value="home"></td>
+		</tr>
 	</table>
 </body>
 </html>

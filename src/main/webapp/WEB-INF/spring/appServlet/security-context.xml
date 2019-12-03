@@ -14,20 +14,17 @@
 	</authentication-manager>
 
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/" access="hasRole('ROLE_USER')" />
-		
+		<intercept-url pattern="/" access="isAuthenticated()" />
+
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
-		<intercept-url pattern="/lectures" access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/specifier" access="hasRole('ROLE_USER')" />
-		
+		<intercept-url pattern="/lectures" access="isAuthenticated()" />
+		<intercept-url pattern="/specifier" access="isAuthenticated()" />
 
-		<intercept-url pattern="/createlecture"
-			access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/docreate"
-			access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/resources/**"
-			access="permitAll" />
+
+		<intercept-url pattern="/createlecture" access="isAuthenticated()" />
+		<intercept-url pattern="/docreate" access="isAuthenticated()" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/**" access="denyAll" />
 
 		<form-login login-page="/login"
