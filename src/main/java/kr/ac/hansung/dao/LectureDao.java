@@ -11,11 +11,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import kr.ac.hansung.model.Offer;
+import kr.ac.hansung.model.Lecture;
 
 // 이름이 offerDao 인 빈을 만들어준다. 패키지 지
 @Repository
-public class OfferDao {
+public class LectureDao {
 
 	private JdbcTemplate jdbcTemplate;
 
@@ -32,17 +32,17 @@ public class OfferDao {
 	}
 
 	// 쿼리 하나의 객체를 조회한다.
-	public List<Offer> getOffer(int year, int semester) {
+	public List<Lecture> getOffer(int year, int semester) {
 	
 //		int year = offer.getYear();
 //		int semester = offer.getSemester();
 		String sqlStatement = "select * from lecture where year=? and semester=? ;";
-		return jdbcTemplate.query(sqlStatement,new Object[] {year, semester}, new RowMapper<Offer>() {
+		return jdbcTemplate.query(sqlStatement,new Object[] {year, semester}, new RowMapper<Lecture>() {
 			// 레코드를 자바 객체로 매핑시켜준다.rowmapper : 인터페이스를 구현 / 익명클래스 작성
 			@Override
-			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
+			public Lecture mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// TODO Auto-generated method stub
-				Offer offer = new Offer();
+				Lecture offer = new Lecture();
 
 				offer.setYear(rs.getInt("year"));
 				offer.setSemester(rs.getInt("semester"));
@@ -58,14 +58,14 @@ public class OfferDao {
 	}
 
 // 여러개의 객체를 조회한다. 
-	public List<Offer> getOffers() {
+	public List<Lecture> getOffers() {
 		String sqlstatement = "select year, semester, sum(point) from lecture group by year,semester ";
-		return jdbcTemplate.query(sqlstatement, new RowMapper<Offer>() {
+		return jdbcTemplate.query(sqlstatement, new RowMapper<Lecture>() {
 			// 레코드를 자바 객체로 매핑시켜준다.rowmapper : 인터페이스를 구현 / 익명클래스 작성
 			@Override
-			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
+			public Lecture mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// TODO Auto-generated method stub
-				Offer offer = new Offer();
+				Lecture offer = new Lecture();
 
 				offer.setYear(rs.getInt("year"));
 				offer.setSemester(rs.getInt("semester"));
@@ -78,30 +78,30 @@ public class OfferDao {
 	}
 
 	// id는 자동으로 증가하도록 설정해놓음.
-	public boolean insert(Offer offer) {
+	public boolean insert(Lecture lecture) {
 
-		int year = offer.getYear();
-		int semester = offer.getSemester();
-		String code = offer.getCode();
-		String name = offer.getName();
-		String division = offer.getDivision();
-		int point = offer.getPoint();
+		int year = lecture.getYear();
+		int semester = lecture.getSemester();
+		String code = lecture.getCode();
+		String name = lecture.getName();
+		String division = lecture.getDivision();
+		int point = lecture.getPoint();
 		
 
-		String sqlStatement = "insert into lecture (year, semester, code, name, division, point) values (?, ?, ?, ?, ?)";
+		String sqlStatement = "insert into lecture (year, semester, code, name, division, point) values (?, ?, ?, ?, ?, ?)";
 
 		return (jdbcTemplate.update(sqlStatement, new Object[] { year, semester, code, name, division, point }) == 1);
 
 	}
 
-	public boolean update(Offer offer) {
+	public boolean update(Lecture lecture) {
 
-		int year = offer.getYear();
-		int semester = offer.getSemester();
-		String code = offer.getCode();
-		String name = offer.getName();
-		String division = offer.getDivision();
-		int point = offer.getPoint();
+		int year = lecture.getYear();
+		int semester = lecture.getSemester();
+		String code = lecture.getCode();
+		String name = lecture.getName();
+		String division = lecture.getDivision();
+		int point = lecture.getPoint();
 
 		String sqlStatement = "update offers set year=?, semester=?, code=?, name=?, division=?, point=? where year=?";
 		return (jdbcTemplate.update(sqlStatement, new Object[] { year, semester, code, name, division, point}) == 1);

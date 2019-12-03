@@ -11,12 +11,12 @@
 	<h1></h1>
 
 	<P>
-		<a href="${pageContext.request.contextPath}/offers">show current
+		<a href="${pageContext.request.contextPath}/lectures">show current
 			lecture </a>
 	</P>
 	<P>
-		<a href="${pageContext.request.contextPath}/createoffer">add a new
-			offer </a>
+		<a href="${pageContext.request.contextPath}/createlecture">add a new
+			lecture </a>
 	</P>
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
 		<c:url var="logoutUrl" value="/logout" />

@@ -18,12 +18,15 @@
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
 
-		<intercept-url pattern="/offers" access="permitAll" />
+		<intercept-url pattern="/lectures" access="permitAll" />
 		<intercept-url pattern="/specifier" access="permitAll" />
 
-		<intercept-url pattern="/createoffer"
+		<intercept-url pattern="/createlecture"
 			access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/resources/**" />
+		<intercept-url pattern="/docreate"
+			access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/resources/**"
+			access="permitAll" />
 		<intercept-url pattern="/**" access="denyAll" />
 
 		<form-login login-page="/login"

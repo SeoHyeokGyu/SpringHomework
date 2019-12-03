@@ -25,16 +25,16 @@ table, th, td {
 			<td>이수 학점</td>
 			<td>상세보기</td>
 		</tr>
-		<c:forEach var="offer" items="${offers}">
+		<c:forEach var="lecture" items="${lectures}">
 			<tr>
-				<td><c:out value="${offer.year}">
+				<td><c:out value="${lecture.year}">
 					</c:out></td>
-				<td><c:out value="${offer.semester}">
+				<td><c:out value="${lecture.semester}">
 					</c:out></td>
-				<td><c:out value="${offer.point}">
+				<td><c:out value="${lecture.point}">
 					</c:out></td>
 				<td>
-					 <a href="${pageContext.request.contextPath }/specifier?year=${offer.year}&semester=${offer.semester}  " >상세보기	</a></td>
+					 <a href="${pageContext.request.contextPath }/specifier?year=${lecture.year}&semester=${lecture.semester}  " >상세보기	</a></td>
 
 			</tr>
 		</c:forEach>

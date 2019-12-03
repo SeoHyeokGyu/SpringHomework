@@ -12,41 +12,41 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.ac.hansung.model.Offer;
-import kr.ac.hansung.service.OfferService;
+import kr.ac.hansung.model.Lecture;
+import kr.ac.hansung.service.LectureService;
 
 @Controller
-public class OfferController {
+public class LectureController {
 
 	@Autowired
-	private OfferService offerService;
+	private LectureService offerService;
 
 	@RequestMapping("/specifier")
 	public String specifier(Model model, @RequestParam("year") int year,@RequestParam("semester") int semester) {
-		List<Offer> specifier = offerService.getOffer(year, semester);
+		List<Lecture> specifier = offerService.getOffer(year, semester);
 		model.addAttribute("specifier",specifier);
 		return "specifier";
 	}
 	
-	@RequestMapping("/offers")
+	@RequestMapping("/lectures")
 	public String showOffers(Model model) {
-		List<Offer> offers = offerService.getCurrent();
-		model.addAttribute("offers", offers);
+		List<Lecture> lectures = offerService.getCurrent();
+		model.addAttribute("lectures", lectures);
 
-		return "offers";
+		return "lectures";
 	}
 
-	@RequestMapping("/createoffer")
+	@RequestMapping("/createlecture")
 	public String createOffer(Model model) {
 //		임의적으로 객체 생성하여 view 에서 사용할수 있게함 .
-		model.addAttribute("offer", new Offer());
+		model.addAttribute("lecture", new Lecture());
 
-		return "createoffer";
+		return "createlecture";
 	}
 
 	@RequestMapping("/docreate")
 //	데이터 바인딩. 자동으로 offer 들어간다.	
-	public String docreate(Model model, @Valid Offer offer, BindingResult result) {
+	public String docreate(Model model, @Valid Lecture lecture, BindingResult result) {
 
 		if(result.hasErrors()) {
 			System.out.println("=== Web Form data doen not validated ===");
@@ -55,11 +55,11 @@ public class OfferController {
 			for(ObjectError error: errors) {
 				System.out.println(error.getDefaultMessage());
 			}
-			return "createoffer";
+			return "createlecture";
 		}
 //		컨트롤러 - 서비스 - dao
-		offerService.insert(offer);
+		offerService.insert(lecture);
 
-		return "offercreated";
+		return "lecturecreated";
 	}
 }

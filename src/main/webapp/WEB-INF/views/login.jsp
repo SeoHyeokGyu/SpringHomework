@@ -24,7 +24,7 @@
 	<div class="container">
 		<form class="form-signin" method="post"
 			action="<c:url value="/login"/>">
-			<h2 class="form-signin-heading">Custom sign in</h2>
+			<h2 class="form-signin-heading">Custom sign in for lecture</h2>
 						<c:if test="${ not empty logoutrMsg}">
 			<div style="color:#0000ff"><h4> ${ logoutMsg} </h4></div>
 			</c:if>

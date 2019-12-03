@@ -8,9 +8,9 @@
 </head>
 <body>
 
-${offer.name } is New Offer. Thank U <br/>
+${lecture.name } is New lecture. Thank U <br/>
 	<P>
-		<a href="${pageContext.request.contextPath}/offers">click here to view current offers </a>
+		<a href="${pageContext.request.contextPath}/lectures">click here to view current lectures </a>
 	</P>
 </body>
 </html>
