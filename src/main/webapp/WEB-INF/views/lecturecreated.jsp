@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,9 +8,15 @@
 </head>
 <body>
 
-${lecture.name } is New lecture. Thank U <br/>
+	${lecture.name } is New lecture. Thank U
+	<br />
 	<P>
-		<a href="${pageContext.request.contextPath}/lectures">click here to view current lectures </a>
+		<a href="${pageContext.request.contextPath}/lectures">click here
+			to view current lectures </a>
 	</P>
+
+	<input type="button"
+		onclick="location.href = '${pageContext.request.contextPath }/' "
+		value="home">
 </body>
 </html>

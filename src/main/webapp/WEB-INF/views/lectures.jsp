@@ -7,12 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-table, th, td {
-	border: 1px solid black;
-	text-align: center;
-}
-</style>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/css/main.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -33,12 +29,17 @@ table, th, td {
 					</c:out></td>
 				<td><c:out value="${lecture.point}">
 					</c:out></td>
-				<td>
-					 <a href="${pageContext.request.contextPath }/specifier?year=${lecture.year}&semester=${lecture.semester}  " >상세보기	</a></td>
+				<td><a
+					href="${pageContext.request.contextPath }/specifier?year=${lecture.year}&semester=${lecture.semester}  ">상세보기
+				</a></td>
 
 			</tr>
 		</c:forEach>
-
+		<tr>
+			<td colspan="4"><input type="button" class="button"
+				onclick="location.href = '${pageContext.request.contextPath }/' "
+				value="home"></td>
+		</tr>
 	</table>
 
 

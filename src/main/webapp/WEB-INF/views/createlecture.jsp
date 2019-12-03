@@ -8,7 +8,8 @@
 <meta charset="UTF-8">
 
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/main.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/css/main.css">
 </head>
 <body>
 	<!-- contextroot 와 매칭 
@@ -19,7 +20,7 @@
 		<table class="formtable">
 			<tr>
 				<td>수강년도 :</td>
-				<td><sf:input class="control" type="text" path="year"/> <br />
+				<td><sf:input class="control" type="text" path="year" /> <br />
 					<sf:errors path="year" class="error"></sf:errors></td>
 			</tr>
 			<tr>
@@ -43,15 +44,19 @@
 					<sf:errors path="division" class="error"></sf:errors></td>
 			</tr>
 			<tr>
-				<td >학점 :</td>
+				<td>학점 :</td>
 				<td><sf:input class="control" type="text" path="point" /><br />
 					<sf:errors path="point" class="error"></sf:errors></td>
 			</tr>
 			<tr>
-				<td></td>
-				<td><input class="control" type="submit" value="수강 신청하기" /></td>
+				<td colspan="2">
+					<input type="reset" class="button" value="Reset" />
+					<input type="submit" class="button" value="수강 신청하기" />
+					<input type="button" class="button" onclick="location.href = '${pageContext.request.contextPath }/' "value="home">
+					</td>
 			</tr>
 		</table>
 	</sf:form>
+
 </body>
 </html>
