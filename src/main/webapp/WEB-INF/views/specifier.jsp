@@ -17,8 +17,11 @@ table, th, td {
 <body>
 	<table>
 	<tr>
-	<td> </td>
-	<td> </td>
+	<td colspan="4">
+	2020년 1학기 수강신청 
+
+	
+	 </td>
 	</tr>
 		<tr>
 			<td>코드</td>

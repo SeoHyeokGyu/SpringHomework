@@ -18,6 +18,10 @@
 		<a href="${pageContext.request.contextPath}/createlecture">add a new
 			lecture </a>
 	</P>
+	<P>
+		<a href="${pageContext.request.contextPath}/specifier?year=2020&semester=1">add a new
+			lecture list </a>
+	</P>
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
 		<c:url var="logoutUrl" value="/logout" />
 

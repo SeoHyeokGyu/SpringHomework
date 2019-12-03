@@ -25,6 +25,7 @@ public class LectureController {
 	public String specifier(Model model, @RequestParam("year") int year,@RequestParam("semester") int semester) {
 		List<Lecture> specifier = offerService.getOffer(year, semester);
 		model.addAttribute("specifier",specifier);
+		
 		return "specifier";
 	}
 	
