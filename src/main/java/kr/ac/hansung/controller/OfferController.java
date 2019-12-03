@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.hansung.model.Offer;
 import kr.ac.hansung.service.OfferService;
@@ -20,6 +21,13 @@ public class OfferController {
 	@Autowired
 	private OfferService offerService;
 
+	@RequestMapping("/specifier")
+	public String specifier(Model model, @RequestParam("year") int year,@RequestParam("semester") int semester) {
+		List<Offer> specifier = offerService.getOffer(year, semester);
+		model.addAttribute("specifier",specifier);
+		return "specifier";
+	}
+	
 	@RequestMapping("/offers")
 	public String showOffers(Model model) {
 		List<Offer> offers = offerService.getCurrent();

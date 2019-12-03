@@ -12,21 +12,23 @@
 				authorities-by-username-query="select username, authority from authorities where username=?" />
 		</authentication-provider>
 	</authentication-manager>
-	
+
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
-		
+
 		<intercept-url pattern="/offers" access="permitAll" />
+		<intercept-url pattern="/specifier" access="permitAll" />
+
 		<intercept-url pattern="/createoffer"
 			access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/resources/**" />
 		<intercept-url pattern="/**" access="denyAll" />
-		
- 		<form-login login-page="/login" 
- 		authentication-failure-url="/login?error"/>
- 		<logout />
+
+		<form-login login-page="/login"
+			authentication-failure-url="/login?error" />
+		<logout />
 	</http>
 
 

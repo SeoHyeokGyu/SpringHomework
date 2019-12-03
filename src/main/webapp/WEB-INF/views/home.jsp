@@ -12,7 +12,7 @@
 
 	<P>
 		<a href="${pageContext.request.contextPath}/offers">show current
-			offers </a>
+			lecture </a>
 	</P>
 	<P>
 		<a href="${pageContext.request.contextPath}/createoffer">add a new

@@ -32,10 +32,12 @@ public class OfferDao {
 	}
 
 	// 쿼리 하나의 객체를 조회한다.
-	public Offer getOffer(String name) {
-		
-		String sqlStatement = "select * from lecture where year=?";
-		return jdbcTemplate.queryForObject(sqlStatement, new Object[] { name }, new RowMapper<Offer>() {
+	public List<Offer> getOffer(int year, int semester) {
+	
+//		int year = offer.getYear();
+//		int semester = offer.getSemester();
+		String sqlStatement = "select * from lecture where year=? and semester=? ;";
+		return jdbcTemplate.query(sqlStatement,new Object[] {year, semester}, new RowMapper<Offer>() {
 			// 레코드를 자바 객체로 매핑시켜준다.rowmapper : 인터페이스를 구현 / 익명클래스 작성
 			@Override
 			public Offer mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -57,7 +59,7 @@ public class OfferDao {
 
 // 여러개의 객체를 조회한다. 
 	public List<Offer> getOffers() {
-		String sqlstatement = "select * from lecture ";
+		String sqlstatement = "select year, semester, sum(point) from lecture group by year,semester ";
 		return jdbcTemplate.query(sqlstatement, new RowMapper<Offer>() {
 			// 레코드를 자바 객체로 매핑시켜준다.rowmapper : 인터페이스를 구현 / 익명클래스 작성
 			@Override
@@ -67,10 +69,7 @@ public class OfferDao {
 
 				offer.setYear(rs.getInt("year"));
 				offer.setSemester(rs.getInt("semester"));
-				offer.setCode(rs.getString("code")); 
-				offer.setName(rs.getString("name"));
-				offer.setDivision(rs.getString("division"));
-				offer.setPoint(rs.getInt("point"));
+				offer.setPoint(rs.getInt("sum(point)"));
 
 				return offer;
 			}
@@ -89,7 +88,7 @@ public class OfferDao {
 		int point = offer.getPoint();
 		
 
-		String sqlStatement = "insert into lecture (year, semester, code, name, division, point) values (?, ?, ?, ?,?)";
+		String sqlStatement = "insert into lecture (year, semester, code, name, division, point) values (?, ?, ?, ?, ?)";
 
 		return (jdbcTemplate.update(sqlStatement, new Object[] { year, semester, code, name, division, point }) == 1);
 

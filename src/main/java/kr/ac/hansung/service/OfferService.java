@@ -14,6 +14,10 @@ public class OfferService {
 	@Autowired
 	private OfferDao offerDao;
 	
+	public List<Offer> getOffer(int year, int semester) {
+		List<Offer> specifier = offerDao.getOffer(year, semester);
+		return specifier;
+	}
 	public List<Offer> getCurrent(){
 		return offerDao.getOffers();
 	}

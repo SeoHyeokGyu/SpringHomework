@@ -21,10 +21,7 @@ public class Offer {
 	
 	@Size(min=2, max=100, message="Name must be between 2 - 100 chars")
 	private String name; 
-	
-	@NotEmpty(message="The  cannot be empty")
 	private String division;
 	
 	private int point;
-	
 }
