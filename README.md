@@ -11,13 +11,59 @@
 -  권한 설정하여 권한이 없으면 접속을 막아놓음. 로그인, 로그아웃만 허용해 들어가면 바로 로그인 가능하다.
 > 실행화면 : <img width="225" alt="image" src="https://user-images.githubusercontent.com/20594299/107466775-fccdfa80-6ba7-11eb-9689-e24e540d0d3a.png">
 > <img width="216" alt="image" src="https://user-images.githubusercontent.com/20594299/107466783-00fa1800-6ba8-11eb-93a8-a2f2d5a743e0.png">   
-> 코드 : <img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107466790-035c7200-6ba8-11eb-9803-04799117c92a.png">
+```
+	<authentication-manager>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="select username, password, enabled from users where username=?"
+				authorities-by-username-query="select username, authority from authorities where username=?" />
+		</authentication-provider>
+	</authentication-manager>
+
+	<http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/" access="isAuthenticated()" />
+
+		<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/logout" access="permitAll" />
+		<intercept-url pattern="/lectures" access="isAuthenticated()" />
+		<intercept-url pattern="/specifier" access="isAuthenticated()" />
+
+
+		<intercept-url pattern="/createlecture" access="isAuthenticated()" />
+		<intercept-url pattern="/docreate" access="isAuthenticated()" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
+		<intercept-url pattern="/**" access="denyAll" />
+
+		<form-login login-page="/login"
+			authentication-failure-url="/login?error" />
+		<logout />
+	</http>
+  ```
 
 1. show current lecture 
 
 <img width="236" alt="image" src="https://user-images.githubusercontent.com/20594299/107467619-c2fdf380-6ba9-11eb-931c-7f0960081fd4.png">
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467625-c5f8e400-6ba9-11eb-9f3d-acc792b410d3.png">
+```
+// 여러개의 객체를 조회한다. 
+	public List<Lecture> getOffers() {
+		String sqlstatement = "select year, semester, sum(point) from lecture group by year,semester ";
+		return jdbcTemplate.query(sqlstatement, new RowMapper<Lecture>() {
+			// 레코드를 자바 객체로 매핑시켜준다.rowmapper : 인터페이스를 구현 / 익명클래스 작성
+			@Override
+			public Lecture mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				Lecture offer = new Lecture();
 
+				offer.setYear(rs.getInt("year"));
+				offer.setSemester(rs.getInt("semester"));
+				offer.setPoint(rs.getInt("sum(point)"));
+
+				return offer;
+			}
+
+		});
+	}
+  ```
 -  Dao 파일에서 년도와 학기 기준으로 학점의 총합을 구하도록 SQL 문을 작성해준다.
 <img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467629-c7c2a780-6ba9-11eb-892d-b10a74bf82f1.png">
 <img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467630-ca250180-6ba9-11eb-82b4-71182479d43f.png">
