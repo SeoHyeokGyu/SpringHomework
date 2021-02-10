@@ -184,12 +184,48 @@ public class LectureService {
 
 <img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467826-39025a80-6baa-11eb-89b0-f54ede942723.png">
 <img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467828-3b64b480-6baa-11eb-9f4a-4d0ad425d672.png">
-<img width="331" alt="image" src="https://user-images.githubusercontent.com/20594299/107467836-3dc70e80-6baa-11eb-8001-1a7cda7044ec.png">
+
+```
+<body>
+	<table>
+		<tr>
+			<td>년도</td>
+			<td>학기</td>
+			<td>코드</td>
+			<td>이름</td>
+			<td>구분</td>
+			<td>학점</td>
+		</tr>
+		<c:forEach var="lecture" items="${specifier}">
+			<tr>
+				<td><c:out value="${lecture.year}">
+					</c:out></td>
+				<td><c:out value="${lecture.semester}">
+					</c:out></td>
+				<td><c:out value="${lecture.code}">
+					</c:out></td>
+				<td><c:out value="${lecture.name}">
+					</c:out></td>
+				<td><c:out value="${lecture.division}">
+					</c:out></td>
+				<td><c:out value="${lecture.point}">
+					</c:out></td>
+
+			</tr>
+
+		</c:forEach>
+		<tr>
+			<td colspan="6"><input type="button" class="button"
+				onclick="location.href = '${pageContext.request.contextPath }/' "
+				value="home"></td>
+		</tr>
+	</table>
+</body>
+```
 
 3. add a new lecture 
 
 <img width="235" alt="image" src="https://user-images.githubusercontent.com/20594299/107467866-4ae3fd80-6baa-11eb-82b9-32504bd0a6a4.png">
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467869-4ddeee00-6baa-11eb-9af8-4c1212755cf1.png">
 
 ```
 <body>
