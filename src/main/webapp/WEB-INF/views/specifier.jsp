@@ -16,12 +16,9 @@ table, th, td {
 </head>
 <body>
 	<table>
-	<tr>
-	<td colspan="4">
-	2020년 1학기 수강신청 
-	 </td>
-	</tr>
 		<tr>
+			<td>년도</td>
+			<td>학기</td>
 			<td>코드</td>
 			<td>이름</td>
 			<td>구분</td>
@@ -29,6 +26,10 @@ table, th, td {
 		</tr>
 		<c:forEach var="lecture" items="${specifier}">
 			<tr>
+				<td><c:out value="${lecture.year}">
+					</c:out></td>
+				<td><c:out value="${lecture.semester}">
+					</c:out></td>
 				<td><c:out value="${lecture.code}">
 					</c:out></td>
 				<td><c:out value="${lecture.name}">
@@ -42,7 +43,7 @@ table, th, td {
 
 		</c:forEach>
 		<tr>
-			<td colspan="4"><input type="button" class="button"
+			<td colspan="6"><input type="button" class="button"
 				onclick="location.href = '${pageContext.request.contextPath }/' "
 				value="home"></td>
 		</tr>

@@ -32,7 +32,7 @@ public class LectureDao {
 	}
 
 	// 쿼리 하나의 객체를 조회한다.
-	public List<Lecture> getOffer(int year, int semester) {
+	public List<Lecture> getLecture(int year, int semester) {
 	
 //		int year = offer.getYear();
 //		int semester = offer.getSemester();
@@ -58,7 +58,7 @@ public class LectureDao {
 	}
 
 // 여러개의 객체를 조회한다. 
-	public List<Lecture> getOffers() {
+	public List<Lecture> getLectures() {
 		String sqlstatement = "select year, semester, sum(point) from lecture group by year,semester ";
 		return jdbcTemplate.query(sqlstatement, new RowMapper<Lecture>() {
 			// 레코드를 자바 객체로 매핑시켜준다.rowmapper : 인터페이스를 구현 / 익명클래스 작성

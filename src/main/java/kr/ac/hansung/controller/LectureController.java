@@ -23,7 +23,7 @@ public class LectureController {
 
 	@RequestMapping("/specifier")
 	public String specifier(Model model, @RequestParam("year") int year,@RequestParam("semester") int semester) {
-		List<Lecture> specifier = offerService.getOffer(year, semester);
+		List<Lecture> specifier = offerService.getLecture(year, semester);
 		model.addAttribute("specifier",specifier);
 		
 		return "specifier";

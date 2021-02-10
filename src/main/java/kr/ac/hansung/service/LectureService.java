@@ -14,12 +14,12 @@ public class LectureService {
 	@Autowired
 	private LectureDao lectureDao;
 	
-	public List<Lecture> getOffer(int year, int semester) {
-		List<Lecture> specifier = lectureDao.getOffer(year, semester);
+	public List<Lecture> getLecture(int year, int semester) {
+		List<Lecture> specifier = lectureDao.getLecture(year, semester);
 		return specifier;
 	}
 	public List<Lecture> getCurrent(){
-		return lectureDao.getOffers();
+		return lectureDao.getLectures();
 	}
 
 	public void insert(Lecture lecture) {
