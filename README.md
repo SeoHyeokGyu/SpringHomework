@@ -43,6 +43,7 @@
 1. show current lecture 
 
 <img width="236" alt="image" src="https://user-images.githubusercontent.com/20594299/107467619-c2fdf380-6ba9-11eb-931c-7f0960081fd4.png">
+
 ```
 // 여러개의 객체를 조회한다. 
 	public List<Lecture> getOffers() {
@@ -64,19 +65,120 @@
 		});
 	}
   ```
+  
 -  Dao 파일에서 년도와 학기 기준으로 학점의 총합을 구하도록 SQL 문을 작성해준다.
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467629-c7c2a780-6ba9-11eb-892d-b10a74bf82f1.png">
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467630-ca250180-6ba9-11eb-82b4-71182479d43f.png">
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467633-cb562e80-6ba9-11eb-8d80-bd5e8b327769.png">
+
+```
+<body>
+	<table>
+	<tr>
+	<td colspan="4">
+	2020년 1학기 수강신청 
+	 </td>
+	</tr>
+		<tr>
+			<td>코드</td>
+			<td>이름</td>
+			<td>구분</td>
+			<td>학점</td>
+		</tr>
+		<c:forEach var="lecture" items="${specifier}">
+			<tr>
+				<td><c:out value="${lecture.code}">
+					</c:out></td>
+				<td><c:out value="${lecture.name}">
+					</c:out></td>
+				<td><c:out value="${lecture.division}">
+					</c:out></td>
+				<td><c:out value="${lecture.point}">
+					</c:out></td>
+
+			</tr>
+
+		</c:forEach>
+		<tr>
+			<td colspan="4"><input type="button" class="button"
+				onclick="location.href = '${pageContext.request.contextPath }/' "
+				value="home"></td>
+		</tr>
+	</table>
+</body>
+```
 
 -  JSP 에서 받아 출력해준다. 상세보기 누르면 year, semester 가 쿼리스트링으로 넘어간다. 
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467638-cdb88880-6ba9-11eb-8680-bd1d53f30b04.png">
+
+```
+	@RequestMapping("/specifier")
+	public String specifier(Model model, @RequestParam("year") int year,@RequestParam("semester") int semester) {
+		List<Lecture> specifier = offerService.getOffer(year, semester);
+		model.addAttribute("specifier",specifier);
+		
+		return "specifier";
+	}
+	
+	@RequestMapping("/lectures")
+	public String showOffers(Model model) {
+		List<Lecture> lectures = offerService.getCurrent();
+		model.addAttribute("lectures", lectures);
+
+		return "lectures";
+	}
+```
 
 -  컨트롤러에서 year, semester 를 받아서 서비스에 넘겨준다.
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467641-cf824c00-6ba9-11eb-9da3-f15e213f5227.png">
+
+```
+@Service
+public class LectureService {
+
+	@Autowired
+	private LectureDao lectureDao;
+	
+	public List<Lecture> getOffer(int year, int semester) {
+		List<Lecture> specifier = lectureDao.getOffer(year, semester);
+		return specifier;
+	}
+	public List<Lecture> getCurrent(){
+		return lectureDao.getOffers();
+	}
+
+	public void insert(Lecture lecture) {
+		// TODO Auto-generated method stub
+		lectureDao.insert(lecture);
+	}
+}
+```
 
 -  Dao 를 호출하여 처리해서 결과값 넘겨준다.
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467644-d1e4a600-6ba9-11eb-89e2-a727959016ee.png">
+
+```
+	// 쿼리 하나의 객체를 조회한다.
+	public List<Lecture> getOffer(int year, int semester) {
+	
+//		int year = offer.getYear();
+//		int semester = offer.getSemester();
+		String sqlStatement = "select * from lecture where year=? and semester=? ;";
+		return jdbcTemplate.query(sqlStatement,new Object[] {year, semester}, new RowMapper<Lecture>() {
+			// 레코드를 자바 객체로 매핑시켜준다.rowmapper : 인터페이스를 구현 / 익명클래스 작성
+			@Override
+			public Lecture mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				Lecture offer = new Lecture();
+
+				offer.setYear(rs.getInt("year"));
+				offer.setSemester(rs.getInt("semester"));
+				offer.setCode(rs.getString("code")); 
+				offer.setName(rs.getString("name"));
+				offer.setDivision(rs.getString("division"));
+				offer.setPoint(rs.getInt("point"));
+
+				return offer;
+			}
+
+		});
+	}
+
+```
 
 2. 상세보기 눌렀을때 
 
@@ -88,8 +190,87 @@
 
 <img width="235" alt="image" src="https://user-images.githubusercontent.com/20594299/107467866-4ae3fd80-6baa-11eb-82b9-32504bd0a6a4.png">
 <img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467869-4ddeee00-6baa-11eb-9af8-4c1212755cf1.png">
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467875-4fa8b180-6baa-11eb-8925-d2f51c7e9e2b.png">
-<img width="451" alt="image" src="https://user-images.githubusercontent.com/20594299/107467878-50d9de80-6baa-11eb-93ae-c8f52b2edc69.png">
+
+```
+<body>
+	<!-- contextroot 와 매칭 
+ -->
+	<sf:form method="post"
+		action="${pageContext.request.contextPath }/docreate"
+		modelAttribute="lecture">
+		<table class="formtable">
+			<tr>
+				<td>수강년도 :</td>
+				<td><sf:input class="control" type="text" path="year" /> <br />
+					<sf:errors path="year" class="error"></sf:errors></td>
+			</tr>
+			<tr>
+				<td>학기 :</td>
+				<td><sf:input class="control" type="text" path="semester" /><br />
+					<sf:errors path="semester" class="error"></sf:errors></td>
+			</tr>
+			<tr>
+				<td>교과코드 :</td>
+				<td><sf:input class="control" type="text" path="code" /><br />
+					<sf:errors path="code" class="error"></sf:errors></td>
+			</tr>
+			<tr>
+				<td>교과목명 :</td>
+				<td><sf:input class="control" type="text" path="name" /><br />
+					<sf:errors path="name" class="error"></sf:errors></td>
+			</tr>
+			<tr>
+				<td>구분 :</td>
+				<td><sf:input class="control" type="text" path="division" /><br />
+					<sf:errors path="division" class="error"></sf:errors></td>
+			</tr>
+			<tr>
+				<td>학점 :</td>
+				<td><sf:input class="control" type="text" path="point" /><br />
+					<sf:errors path="point" class="error"></sf:errors></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="reset" class="button" value="Reset" />
+					<input type="submit" class="button" value="수강 신청하기" />
+					<input type="button" class="button" onclick="location.href = '${pageContext.request.contextPath }/' "value="home">
+					</td>
+			</tr>
+		</table>
+	</sf:form>
+
+</body>
+```
+
+```
+@RequestMapping("/createlecture")
+	public String createOffer(Model model) {
+//		임의적으로 객체 생성하여 view 에서 사용할수 있게함 .
+		model.addAttribute("lecture", new Lecture());
+
+		return "createlecture";
+	}
+
+	@RequestMapping("/docreate")
+//	데이터 바인딩. 자동으로 offer 들어간다.	
+	public String docreate(Model model, @Valid Lecture lecture, BindingResult result) {
+
+		if(result.hasErrors()) {
+			System.out.println("=== Web Form data doen not validated ===");
+			List<ObjectError> errors = result.getAllErrors();
+//			메세지를 지정해줘야한다. 	
+			for(ObjectError error: errors) {
+				System.out.println(error.getDefaultMessage());
+			}
+			return "createlecture";
+		}
+//		컨트롤러 - 서비스 - dao
+		offerService.insert(lecture);
+
+		return "lecturecreated";
+	}
+```
+
 <img width="220" alt="image" src="https://user-images.githubusercontent.com/20594299/107467881-52a3a200-6baa-11eb-904f-4ea7383e75f8.png">
 
 4. add a new lecture list
